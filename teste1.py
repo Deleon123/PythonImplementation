@@ -1,6 +1,7 @@
 # importando as livrarias necessárias
 import os
 import requests
+import zipfile
 
 # descobrindo as urls de onde serão baixados os arquivos
 urls = [
@@ -13,6 +14,9 @@ urls = [
 # diretório de saída
 output_dir = './Outputs'
 
+# criando o arquivo .zip
+zip_file = zipfile.ZipFile('Outputs/archives.zip', 'w')
+
 # baixando os pdfs
 for url in urls:
     response = requests.get(url)
@@ -20,5 +24,7 @@ for url in urls:
         file_path = os.path.join(output_dir, os.path.basename(url))
         with open(file_path, 'wb') as f:
             f.write(response.content)
-
-#compactando em zip
+            # colocando os arquivos em um zip 
+            zip_file.write(file_path, compress_type=zipfile.ZIP_DEFLATED)
+# fechando o arquivo zip que foi aberto
+zip_file.close()
