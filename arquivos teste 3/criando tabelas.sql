@@ -24,6 +24,6 @@ CREATE TABLE Demonstracoes_contabeis (
     REG_ANS varchar(255),
     CD_CONTA_CONTABIL varchar(255),
     DESCRICAO varchar(255),
-    VL_SALDO_FINAL varchar(255),
+    VL_SALDO_FINAL varchar(255)
 );
  
