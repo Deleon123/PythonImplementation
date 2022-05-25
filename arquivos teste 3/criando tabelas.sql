@@ -19,11 +19,13 @@ CREATE TABLE Relacao_de_Operadoras_Ativas (
     Cargo_representante varchar(255),
     Data_registro_ANS varchar(255)
 );
+
 CREATE TABLE Demonstracoes_contabeis (
     Data_tempo varchar(255),
     REG_ANS varchar(255),
     CD_CONTA_CONTABIL varchar(255),
     DESCRICAO varchar(255),
+    VL_SALDO_INICIAL varchar(255),
     VL_SALDO_FINAL varchar(255)
+
 );
- 
