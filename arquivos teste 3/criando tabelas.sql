@@ -20,12 +20,21 @@ CREATE TABLE Relacao_de_Operadoras_Ativas (
     Data_registro_ANS varchar(255)
 );
 
-CREATE TABLE Demonstracoes_contabeis (
+CREATE TABLE Demonstracoes_contabeis_2021_4T (
     Data_tempo varchar(255),
     REG_ANS varchar(255),
     CD_CONTA_CONTABIL varchar(255),
     DESCRICAO varchar(255),
     VL_SALDO_INICIAL varchar(255),
+    VL_SALDO_FINAL varchar(255)
+
+);
+
+CREATE TABLE Demonstracoes_contabeis_restante (
+    Data_tempo varchar(255),
+    REG_ANS varchar(255),
+    CD_CONTA_CONTABIL varchar(255),
+    DESCRICAO varchar(255),
     VL_SALDO_FINAL varchar(255)
 
 );
