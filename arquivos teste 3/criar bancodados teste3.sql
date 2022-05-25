@@ -1,0 +1,1 @@
+CREATE DATABASE teste3_db;
