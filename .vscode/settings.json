@@ -7,11 +7,11 @@
             "previewLimit": 50,
             "server": "localhost",
             "port": 3306,
-            "driver": "MySQL",
-            "name": "MySQL",
+            "driver": "MariaDB",
+            "name": "ConnectionDB",
             "database": "teste3_db",
             "username": "root",
-            "connectionTimeout": 60,
+            "connectionTimeout": 600,
             "password": ""
         }
     ]

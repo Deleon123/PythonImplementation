@@ -1,1 +1,1 @@
-create database teste4 character set UTF8 collate utf8_bin
+CREATE DATABASE teste3_db CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
