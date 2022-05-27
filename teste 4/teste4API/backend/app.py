@@ -134,6 +134,7 @@ def parseCSV(filePath):
     col_names = ['Registro ANS','CNPJ','Razão Social','Nome Fantasia','Modalidade','Logradouro','Número','Complemento','Bairro','Cidade', 'UF','CEP', 'DDD', 'Telefone', 'Fax', 'Endereço eletrônico', 'Representante', 'Cargo Representante', 'Data Registro ANS']
     # usando Pandas para ler o arquivo CSV (pulando as três primeiras linhas)
     csvData = pd.read_csv(filePath, names=col_names, encoding = "ANSI", sep=';', skiprows=3)
+    # Substituindo os "nan" por None
     csvData.dropna(inplace=True)
     csvData[(csvData['Registro ANS']!='nan') & (csvData['CNPJ']!='nan') &(csvData['Razão Social']!='nan') &(csvData['Nome Fantasia']!='nan') &(csvData['Modalidade']!='nan') &(csvData['Logradouro']!='nan')&(csvData['Número']!='nan')&(csvData['Complemento']!='nan')&(csvData['Bairro']!='nan')&(csvData['Cidade']!='nan')&(csvData['UF']!='nan')&(csvData['CEP']!='nan')&(csvData['DDD']!='nan') &(csvData['Telefone']!='nan')&(csvData['Fax']!='nan')&(csvData['Endereço eletrônico']!='nan')&(csvData['Representante']!='nan')&(csvData['Cargo Representante']!='nan')&(csvData['Data Registro ANS']!='nan')]
     csvData2 = csvData.where((pd.notnull(csvData)), None)
