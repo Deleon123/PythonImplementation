@@ -66,7 +66,7 @@ class Operadoras(db.Model):
 
 class OperadorasSchema(ma.Schema):
     class Meta:
-        flieds = ('registro_ans','cnpj', 'razao_social', 'nome_fantasia', 'modalidade', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'ddd', 'telefone', 'fax', 'endereco_eletronico', 'representante', 'cargo_representante', 'data_registro_ans')
+        fields = ('registro_ans','cnpj', 'razao_social', 'nome_fantasia', 'modalidade', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'ddd', 'telefone', 'fax', 'endereco_eletronico', 'representante', 'cargo_representante', 'data_registro_ans')
 
 operadora_schema = OperadorasSchema()
 operadoras_schema = OperadorasSchema(many='true')
@@ -79,46 +79,19 @@ def get_operadoras():
     return jsonify(results)
 
 # Retorna operadora com registro ANS especificado
-@app.route('/get/<registro_ans>', methods = ['GET'])
+@app.route('/getANS/<registro_ans>', methods = ['GET'])
 def registros_detale(registro_ans):
     operadora = Operadoras.query.get(registro_ans)
     return operadora_schema.jsonify(operadora)
 
-# Adiciona uma nova operadora
-@app.route('/add', methods = ['POST'])
-def add_operadoras():
-    registro_ans = request.json['registro_ans']
-    cnpj = request.json['cnpj']
-    razao_social = request.json['razao_social']
-    nome_fantasia = request.json['nome_fantasia']
-    modalidade = request.json['modalidade']
-    logradouro = request.json['logradouro']
-    numero = request.json['numero']
-    complemento = request.json['complemento']
-    bairro = request.json['bairro']
-    cidade = request.json['cidade']
-    uf = request.json['uf']
-    cep = request.json['cep']
-    ddd = request.json['ddd']
-    telefone = request.json['telefone']
-    fax = request.json['fax']
-    endereco_eletronico = request.json['endereco_eletronico']
-    representante = request.json['representante']
-    cargo_representante = request.json['cargo_representante']
-    data_registro_ans = request.json['data_registro_ans']
 
-    operadoras = Operadoras(registro_ans, cnpj, razao_social, nome_fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, data_registro_ans)
-    db.session.add(operadoras)
-    db.session.commit()
-    return operadora_schema.jsonify()
-
-@app.route('/')
-def index():
+@app.route('/uploadCsv')
+def uploadcsv():
     # Template para upar o arquivo CSV
-    return render_template('index.html')
+    return render_template('uploadcsv.html')
 
 # Recebendo os arquivos upados
-@app.route("/", methods=['POST'])
+@app.route("/uploadCsv", methods=['POST'])
 def uploadFiles():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
@@ -127,7 +100,7 @@ def uploadFiles():
             # salvando o arquivo
             uploaded_file.save(file_path)
             parseCSV(file_path)
-    return redirect(url_for('index'))
+    return redirect(url_for('uploadcsv'))
 
 def parseCSV(filePath):
     # nome das colunas do csv
@@ -139,7 +112,6 @@ def parseCSV(filePath):
     csvData[(csvData['Registro ANS']!='nan') & (csvData['CNPJ']!='nan') &(csvData['Razão Social']!='nan') &(csvData['Nome Fantasia']!='nan') &(csvData['Modalidade']!='nan') &(csvData['Logradouro']!='nan')&(csvData['Número']!='nan')&(csvData['Complemento']!='nan')&(csvData['Bairro']!='nan')&(csvData['Cidade']!='nan')&(csvData['UF']!='nan')&(csvData['CEP']!='nan')&(csvData['DDD']!='nan') &(csvData['Telefone']!='nan')&(csvData['Fax']!='nan')&(csvData['Endereço eletrônico']!='nan')&(csvData['Representante']!='nan')&(csvData['Cargo Representante']!='nan')&(csvData['Data Registro ANS']!='nan')]
     csvData2 = csvData.where((pd.notnull(csvData)), None)
     # fazendo o loop nas linhas e adicionando os dados
-    print('chegou aqui 1')
     for index, row in csvData2.iterrows():
         registro_ans = row['Registro ANS']
         cnpj = row['CNPJ']
@@ -160,9 +132,8 @@ def parseCSV(filePath):
         representante = row['Representante']
         cargo_representante = row['Cargo Representante']
         data_registro_ans = row['Data Registro ANS']
-        print('chegou aqui 2')
+        # preenchendo banco de dados
         operadoras = Operadoras(registro_ans, cnpj, razao_social, nome_fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, data_registro_ans)
-        print('chegou aqui ', index)
         db.session.add(operadoras)
         db.session.commit()
 
