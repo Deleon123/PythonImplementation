@@ -4,9 +4,11 @@ from flask_marshmallow import Marshmallow
 import os 
 from os.path import join, dirname, realpath
 import pandas as pd
-
+from flask_cors import CORS
+import numpy as np
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/flask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -41,11 +43,11 @@ class Operadoras(db.Model):
     data_registro_ans = db.Column(db.String(200))
 
 
-    def __init__(self, registro_ans, cnpj, razao_social, nome_fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, data_registro_ans):
+    def __init__(self, registro_ans, cnpj, razao_social, nome_Fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, data_registro_ans):
         self.registro_ans = registro_ans
         self.cnpj = cnpj
         self.razao_social = razao_social
-        self.nome_fantasia = nome_fantasia
+        self.nome_Fantasia = nome_Fantasia
         self.modalidade = modalidade
         self.logradouro = logradouro
         self.numero = numero
@@ -66,7 +68,7 @@ class Operadoras(db.Model):
 
 class OperadorasSchema(ma.Schema):
     class Meta:
-        fields = ('registro_ans','cnpj', 'razao_social', 'nome_fantasia', 'modalidade', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'ddd', 'telefone', 'fax', 'endereco_eletronico', 'representante', 'cargo_representante', 'data_registro_ans')
+        fields = ('registro_ans','cnpj', 'razao_social', 'nome_Fantasia', 'modalidade', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'ddd', 'telefone', 'fax', 'endereco_eletronico', 'representante', 'cargo_representante', 'data_registro_ans')
 
 operadora_schema = OperadorasSchema()
 operadoras_schema = OperadorasSchema(many='true')
@@ -103,20 +105,20 @@ def uploadFiles():
     return redirect(url_for('uploadcsv'))
 
 def parseCSV(filePath):
+
     # nome das colunas do csv
     col_names = ['Registro ANS','CNPJ','Razão Social','Nome Fantasia','Modalidade','Logradouro','Número','Complemento','Bairro','Cidade', 'UF','CEP', 'DDD', 'Telefone', 'Fax', 'Endereço eletrônico', 'Representante', 'Cargo Representante', 'Data Registro ANS']
     # usando Pandas para ler o arquivo CSV (pulando as três primeiras linhas)
     csvData = pd.read_csv(filePath, names=col_names, encoding = "ANSI", sep=';', skiprows=3)
     # Substituindo os "nan" por None
-    csvData.dropna(inplace=True)
-    csvData[(csvData['Registro ANS']!='nan') & (csvData['CNPJ']!='nan') &(csvData['Razão Social']!='nan') &(csvData['Nome Fantasia']!='nan') &(csvData['Modalidade']!='nan') &(csvData['Logradouro']!='nan')&(csvData['Número']!='nan')&(csvData['Complemento']!='nan')&(csvData['Bairro']!='nan')&(csvData['Cidade']!='nan')&(csvData['UF']!='nan')&(csvData['CEP']!='nan')&(csvData['DDD']!='nan') &(csvData['Telefone']!='nan')&(csvData['Fax']!='nan')&(csvData['Endereço eletrônico']!='nan')&(csvData['Representante']!='nan')&(csvData['Cargo Representante']!='nan')&(csvData['Data Registro ANS']!='nan')]
-    csvData2 = csvData.where((pd.notnull(csvData)), None)
+    csvData = csvData.replace(np.nan, 'vazio')
     # fazendo o loop nas linhas e adicionando os dados
-    for index, row in csvData2.iterrows():
+    
+    for index, row in csvData.iterrows():
         registro_ans = row['Registro ANS']
         cnpj = row['CNPJ']
         razao_social = row['Razão Social']
-        nome_fantasia = row['Nome Fantasia']
+        nome_Fantasia = row['Nome Fantasia']  
         modalidade = row['Modalidade']
         logradouro = row['Logradouro']
         numero = row['Número']
@@ -133,9 +135,9 @@ def parseCSV(filePath):
         cargo_representante = row['Cargo Representante']
         data_registro_ans = row['Data Registro ANS']
         # preenchendo banco de dados
-        operadoras = Operadoras(registro_ans, cnpj, razao_social, nome_fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, data_registro_ans)
+        operadoras = Operadoras(registro_ans, cnpj, razao_social, nome_Fantasia, modalidade, logradouro, numero, complemento, bairro, cidade, uf, cep, ddd, telefone, fax, endereco_eletronico, representante, cargo_representante, data_registro_ans)
         db.session.add(operadoras)
         db.session.commit()
-
+    
 if __name__ == "__main__":
     app.run(debug=True)

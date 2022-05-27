@@ -1,15 +1,20 @@
 <template>
-  <NavbarTeste/>
+ <div id="App">
+    <MyNavbar/>
+  <router-view/>
+  
+  </div>
 </template>
 
 <script>
-import NavbarTeste from './components/NavbarTeste.vue'
+import MyNavbar from './components/MyNavbar.vue'
 
 export default {
   name: 'App',
   components: {
-    NavbarTeste
-  }
+    MyNavbar
+    
+}
 }
 </script>
 
