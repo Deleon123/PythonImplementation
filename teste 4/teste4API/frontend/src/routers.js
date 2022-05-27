@@ -1,18 +1,18 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import MyHome from './components/MyHome'
-import MyCreate from './components/MyCreate'
+import MySearch from './components/MySearch'
 
 const routes = [
     {
         path:'/',
         name:'MyHome',
-        component:MyHome
+        component: MyHome
     },
-    
+
     {
-        path:'/MyCreate',
-        name:'MyCreate',
-        component:MyCreate
+        path:'/MySearch',
+        name:'MySearch',
+        component:MySearch
     }
 ]
 

@@ -6,9 +6,6 @@
         <li class="nav-item" style="padding-right:20px;">
           <router-link class="btn btn-primary" aria-current="page" to="/">Home</router-link>
         </li>
-        <li class="nav-item">
-          <router-link class="btn btn-success" to="/MyCreate">Create</router-link>
-        </li>
       </ul>
   </div>
 </nav>
