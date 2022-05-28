@@ -83,7 +83,9 @@ def get_operadoras():
 # Retorna operadora com registro ANS especificado
 @app.route('/Search/<search>/<searchType>/', methods = ['GET'])
 def serachOperadoras(search, searchType):
-    print(search)
+    if(search == "search" and searchType == "searchType"):
+        return "Na opção searchType digite o nome da coluna que quer procurar e na opção search o texto(ou número) que será pesquisado"
+
     if searchType == 'Razão Social':
         operadorasPesquisa = Operadoras.query.filter(Operadoras.razao_social.ilike('%'+search+'%'))
     elif searchType == 'CNPJ':
