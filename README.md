@@ -1,5 +1,5 @@
 # TesteIntuitiveCare
-##Teste para o processo seletivo
+## Teste para o processo seletivo
 O teste 1 foi feito em python e utilizou as livrarias importadas assim como o teste 2
 O teste 3 contém os SQLs para o banco de dados e para as pesquisas solicitadas no teste 3 
 O teste 4 foi feito em Python usando Flask e VueJS, além de algumas livrarias auxiliares
