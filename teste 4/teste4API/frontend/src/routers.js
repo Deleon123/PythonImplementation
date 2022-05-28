@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import MyHome from './components/MyHome'
-import MySearch from './components/MySearch'
+import MySearchResult from './components/MySearchResult'
 
 const routes = [
     {
@@ -10,9 +10,9 @@ const routes = [
     },
 
     {
-        path:'/MySearch',
-        name:'MySearch',
-        component:MySearch
+        path:'/MySearchResult/:searchType/:search',
+        name:'MySearchResult',
+        component:MySearchResult
     }
 ]
 

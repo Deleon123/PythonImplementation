@@ -81,10 +81,53 @@ def get_operadoras():
     return jsonify(results)
 
 # Retorna operadora com registro ANS especificado
-@app.route('/getANS/<registro_ans>', methods = ['GET'])
-def registros_detale(registro_ans):
-    operadora = Operadoras.query.get(registro_ans)
-    return operadora_schema.jsonify(operadora)
+@app.route('/Search/<search>/<searchType>/', methods = ['GET'])
+def serachOperadoras(search, searchType):
+    print(search)
+    if searchType == 'Razão Social':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.razao_social.ilike('%'+search+'%'))
+    elif searchType == 'CNPJ':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.cnpj.ilike('%'+search+'%'))
+    elif searchType == 'Registro ANS':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.registro_ans.ilike('%'+search+'%'))
+    elif searchType == 'Nome Fantasia':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.nome_Fantasia.ilike('%'+search+'%'))
+    elif searchType == 'Modalidade':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.modalidade.ilike('%'+search+'%'))
+    elif searchType == 'Logradouro':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.logradouro.ilike('%'+search+'%'))
+    elif searchType == 'Número':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.numero.ilike('%'+search+'%'))
+    elif searchType == 'Complemento':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.complemento.ilike('%'+search+'%'))
+    elif searchType == 'Bairro':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.bairro.ilike('%'+search+'%'))
+    elif searchType == 'Cidade':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.cidade.ilike('%'+search+'%'))
+    elif searchType == 'UF':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.uf.ilike('%'+search+'%'))
+    elif searchType == 'CEP':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.cep.ilike('%'+search+'%'))
+    elif searchType == 'DDD':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.ddd.ilike('%'+search+'%'))
+    elif searchType == 'Telefone':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.telefone.ilike('%'+search+'%'))
+    elif searchType == 'Fax':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.fax.ilike('%'+search+'%'))
+    elif searchType == 'Endereço de e-mail':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.endereco_eletronico.ilike('%'+search+'%'))
+    elif searchType == 'Representante':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.representante.ilike('%'+search+'%'))
+    elif searchType == 'Cargo do representante':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.cargo_representante.ilike('%'+search+'%'))
+    elif searchType == 'Data de registro':
+        operadorasPesquisa = Operadoras.query.filter(Operadoras.data_registro_ans.ilike('%'+search+'%'))
+    results = operadoras_schema.dump(operadorasPesquisa)
+    return jsonify(results)    
+    
+
+    
+
 
 
 @app.route('/uploadCsv')
